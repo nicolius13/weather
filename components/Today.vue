@@ -26,10 +26,10 @@
         <h2 class="weatherText">shower</h2>
       </b-col>
       <b-row>
-        <b-col class="text-center opa-4" cols="12">
+        <b-col class="text-center opa-4" align-self="end" cols="12">
           Today . Fri. 5 jun
         </b-col>
-        <b-col class="text-center opa-4">
+        <b-col class="text-center opa-4" align-self="end">
           Thakhek
         </b-col>
       </b-row>

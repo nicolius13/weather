@@ -1,5 +1,5 @@
 <template>
-  <b-col class="text-center footer">
+  <b-col class="text-center footer" align-self="end" cols="12">
     <p>Nicolas Vastrade</p>
   </b-col>
 </template>
@@ -8,4 +8,8 @@
 export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+p {
+  opacity: 0.3;
+}
+</style>
