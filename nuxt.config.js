@@ -13,7 +13,14 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
     ],
-    link: [{ rel: 'icon', type: 'image/png', href: '/LightCloud.png' }],
+    link: [
+      { rel: 'icon', type: 'image/png', href: '/LightCloud.png' },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css2?family=Raleway:wght@500;700&display=swap',
+      },
+    ],
   },
 
   /*
