@@ -1,4 +1,4 @@
-import pkg from './package'
+import pkg from './package';
 
 export default {
   mode: 'universal',
@@ -53,6 +53,7 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    headers: { 'X-Requested-With': 'http://localhost:3000' },
   },
 
   styleResources: {
@@ -74,8 +75,8 @@ export default {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
-        })
+        });
       }
     },
   },
-}
+};

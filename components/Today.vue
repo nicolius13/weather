@@ -26,11 +26,7 @@
 
       <b-col class="text-center" cols="12">
         <h2 class="weatherText">
-          {{
-            weatherObj
-              ? weatherObj.consolidated_weather[0].weather_state_name
-              : 'Clear'
-          }}
+          {{ weatherObj.consolidated_weather[0].weather_state_name }}
         </h2>
       </b-col>
       <b-row>
@@ -39,7 +35,7 @@
           {{ new Date().toDateString() }}
         </b-col>
         <b-col class="text-center opa-4" align-self="end">
-          {{ weatherObj ? weatherObj.title : 'Somewhere' }}
+          {{ weatherObj.title }}
         </b-col>
       </b-row>
     </b-row>
@@ -58,12 +54,8 @@ export default {
   },
   computed: {
     iconName() {
-      if (this.weatherObj) {
-        const name = this.weatherObj.consolidated_weather[0].weather_state_name;
-        return name.replace(/\s/g, '');
-      } else {
-        return 'Clear';
-      }
+      const name = this.weatherObj.consolidated_weather[0].weather_state_name;
+      return name.replace(/\s/g, '');
     },
     temp() {
       if (this.weatherObj) {

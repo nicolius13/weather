@@ -17,24 +17,22 @@ export default {
     NextDays,
   },
   data() {
-    return {
-      weatherObj: null,
-    };
+    return {};
   },
 
-  created() {
-    this.$axios
+  async asyncData({ $axios }) {
+    return await $axios
       .get(
         `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=17.395548,104.803526`
       )
       .then(res => {
         const woeid = res.data[0].woeid;
-        this.$axios
+        return $axios
           .get(
             `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
           )
           .then(res => {
-            this.weatherObj = res.data;
+            return { weatherObj: res.data };
           });
       });
   },
