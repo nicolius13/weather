@@ -1,20 +1,26 @@
 <template>
   <b-col class="nextDaysCol d-flex">
     <b-row>
+      <!-- TEMP BTN -->
       <b-col class="text-right" cols="12">
-        <b-button pill>°C</b-button>
-        <b-button pill>°F</b-button>
+        <b-button @click="convertTemp('cel')" class="tempType mr-2" pill
+          >°C</b-button
+        >
+        <b-button @click="convertTemp('far')" class="tempType" pill
+          >°F</b-button
+        >
       </b-col>
-
+      <!-- WEATHER FOR NEXT DAYS -->
       <b-row class="mt-3 justify-content-center">
         <DaysPrevisions
           v-for="(day, i) in weather"
           :key="i"
           :day="day"
           :index="i"
+          :tempType="tempType"
         />
       </b-row>
-
+      <!-- TODAYS HIGHTLIGHTS -->
       <b-col class="mt-4 mb-4" align-self="center" cols="12">
         <h1>Today's Hightlights</h1>
       </b-col>
@@ -108,9 +114,21 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      tempType: 'cel',
+    };
+  },
   computed: {
+    // rotate the compass to point the wind direction
     direction() {
       return { transform: `rotate(${this.weather[0].wind_direction}deg)` };
+    },
+  },
+  methods: {
+    convertTemp(type) {
+      this.$emit('tempconvertion', type);
+      this.tempType = type;
     },
   },
 };
@@ -120,6 +138,15 @@ export default {
 .nextDaysCol {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.tempType {
+  border: none;
+  background-color: #585676;
+  &:hover {
+    background-color: $clr-light;
+    color: $clr-dark;
+  }
 }
 
 .numbers {

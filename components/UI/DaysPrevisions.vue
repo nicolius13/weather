@@ -14,8 +14,8 @@
       fluid
     ></b-img>
     <div class="d-flex justify-content-around mt-3">
-      <p>{{ Math.round(day.max_temp) }}°C</p>
-      <p class="min_temp">{{ Math.round(day.min_temp) }}°C</p>
+      <p>{{ convertTemp(day.max_temp) }}{{ tempSign }}</p>
+      <p class="min_temp">{{ convertTemp(day.min_temp) }}{{ tempSign }}</p>
     </div>
   </b-col>
 </template>
@@ -33,12 +33,18 @@ export default {
         return null;
       },
     },
+    tempType: {
+      type: String,
+      default: 'cel',
+    },
   },
   computed: {
+    // get the name without the space to use them in src
     iconName() {
       const name = this.day.weather_state_name;
       return name.replace(/\s/g, '');
     },
+    // get the date format DD. DD MM
     date() {
       const date = new Date(Date.now() + this.index * 1000 * 60 * 60 * 24);
       const day = date.getDate();
@@ -46,11 +52,21 @@ export default {
       const month = this.monthOfYear(date.getMonth());
       return `${weekDay}. ${day} ${month}`;
     },
+    // change temperature sign if needed
+    tempSign() {
+      if (this.tempType === 'far') {
+        return '°F';
+      } else {
+        return '°C';
+      }
+    },
   },
   methods: {
+    // get the day of the week
     dayOfWeek(dayIndex) {
       return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex] || '';
     },
+    // get the month of the year
     monthOfYear(monthIndex) {
       return (
         [
@@ -68,6 +84,14 @@ export default {
           'Dec',
         ][monthIndex] || ''
       );
+    },
+    // temperature convertion if needed
+    convertTemp(temp) {
+      if (this.tempType === 'far') {
+        return Math.round(temp * (9 / 5) + 32);
+      } else {
+        return Math.round(temp);
+      }
     },
   },
 };

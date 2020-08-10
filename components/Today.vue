@@ -1,6 +1,7 @@
 <template>
   <b-col class="todayCol d-flex no-gutters" cols="12" md="4" xl="3">
     <b-row>
+      <!-- BTN -->
       <b-col class="text-left" cols="8">
         <b-button>Search for places</b-button>
       </b-col>
@@ -9,33 +10,33 @@
           ><b-img src="~/assets/icons/location.png"></b-img
         ></b-button>
       </b-col>
-
+      <!-- IMG -->
       <b-col class="iconCol text-center d-flex" cols="12">
         <b-img :src="`/${iconName}.png`" class="m-auto"></b-img>
       </b-col>
-
+      <!-- TEMPERATURE -->
       <b-col
         class="text-center d-flex justify-content-center align-items-center"
         cols="12"
       >
         <h1 class="temp">
-          <span v-for="(num, i) in temp" :key="i" :class="`temp-${i}`">{{
-            num
-          }}</span
-          ><span class="tempDeg">°C</span>
+          {{ temperature
+          }}<span class="tempDeg">{{ tempType === 'cel' ? '°C' : '°F' }}</span>
         </h1>
       </b-col>
-
+      <!-- WEATHER NAME -->
       <b-col class="text-center" cols="12">
         <h2 class="weatherText">
           {{ weatherObj.consolidated_weather[0].weather_state_name }}
         </h2>
       </b-col>
+      <!-- DATE -->
       <b-row>
         <b-col class="text-center opa-4" align-self="end" cols="12">
           Today .
           {{ date }}
         </b-col>
+        <!-- PLACE -->
         <b-col class="text-center opa-4" align-self="end">
           {{ weatherObj.title }}
         </b-col>
@@ -53,22 +54,18 @@ export default {
         return null;
       },
     },
+    tempType: {
+      type: String,
+      default: 'cel',
+    },
   },
   computed: {
+    // get the name without the space to use them in src
     iconName() {
       const name = this.weatherObj.consolidated_weather[0].weather_state_name;
       return name.replace(/\s/g, '');
     },
-    temp() {
-      if (this.weatherObj) {
-        const temp = Math.round(
-          this.weatherObj.consolidated_weather[0].the_temp
-        );
-        return '' + temp;
-      } else {
-        return '15';
-      }
-    },
+    // get the date format DD. DD MM
     date() {
       const date = new Date();
       const day = date.getDate();
@@ -76,11 +73,21 @@ export default {
       const month = this.monthOfYear(date.getMonth());
       return `${weekDay}. ${day} ${month}`;
     },
+    // temperature convertion if needed
+    temperature() {
+      const temp = this.weatherObj.consolidated_weather[0].the_temp;
+      if (this.tempType === 'far') {
+        return Math.round(temp * (9 / 5) + 32);
+      }
+      return Math.round(temp);
+    },
   },
+  // get the day of the week
   methods: {
     dayOfWeek(dayIndex) {
       return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex] || '';
     },
+    // get the month of the year
     monthOfYear(monthIndex) {
       return (
         [
@@ -116,20 +123,10 @@ export default {
 }
 
 .temp {
-  .temp-0 {
-    font-size: 7rem;
-    line-height: 144px;
-    vertical-align: text-top;
-    margin-right: 3px;
-  }
-  .temp-1 {
-    font-size: 7.5rem;
-    vertical-align: -78px;
-  }
+  font-size: 7rem;
+
   .tempDeg {
     font-size: 3rem;
-    line-height: 144px;
-    vertical-align: -70px;
     opacity: 0.6;
   }
 }
