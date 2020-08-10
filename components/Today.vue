@@ -9,7 +9,7 @@
       </b-col>
 
       <b-col class="iconCol text-center d-flex" cols="12">
-        <b-img class="m-auto" src="~/assets/icons/clear.png"></b-img>
+        <b-img :src="`/${iconName}.png`" class="m-auto"></b-img>
       </b-col>
 
       <b-col
@@ -17,20 +17,29 @@
         cols="12"
       >
         <h1 class="temp">
-          <span class="tempFirst">1</span><span class="tempSecond">5</span
+          <span v-for="(num, i) in temp" :key="i" :class="`temp-${i}`">{{
+            num
+          }}</span
           ><span class="tempDeg">°C</span>
         </h1>
       </b-col>
 
       <b-col class="text-center" cols="12">
-        <h2 class="weatherText">shower</h2>
+        <h2 class="weatherText">
+          {{
+            weatherObj
+              ? weatherObj.consolidated_weather[0].weather_state_name
+              : 'Clear'
+          }}
+        </h2>
       </b-col>
       <b-row>
         <b-col class="text-center opa-4" align-self="end" cols="12">
-          Today . Fri. 5 jun
+          Today .
+          {{ new Date().toDateString() }}
         </b-col>
         <b-col class="text-center opa-4" align-self="end">
-          Thakhek
+          {{ weatherObj ? weatherObj.title : 'Somewhere' }}
         </b-col>
       </b-row>
     </b-row>
@@ -38,7 +47,36 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    weatherObj: {
+      type: Object,
+      default: () => {
+        return null;
+      },
+    },
+  },
+  computed: {
+    iconName() {
+      if (this.weatherObj) {
+        const name = this.weatherObj.consolidated_weather[0].weather_state_name;
+        return name.replace(/\s/g, '');
+      } else {
+        return 'Clear';
+      }
+    },
+    temp() {
+      if (this.weatherObj) {
+        const temp = Math.round(
+          this.weatherObj.consolidated_weather[0].the_temp
+        );
+        return '' + temp;
+      } else {
+        return '15';
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -49,13 +87,13 @@ export default {};
 }
 
 .temp {
-  .tempFirst {
+  .temp-0 {
     font-size: 7rem;
     line-height: 144px;
     vertical-align: text-top;
     margin-right: 3px;
   }
-  .tempSecond {
+  .temp-1 {
     font-size: 7.5rem;
     vertical-align: -78px;
   }
@@ -85,7 +123,7 @@ export default {};
     left: -15%;
     bottom: 0;
     right: 0;
-    background: url('../assets/icons/Cloud-background-left.png') no-repeat;
+    background: url('/Cloud-background-left.png') no-repeat;
     background-size: contain;
     opacity: 0.1;
   }
@@ -97,7 +135,7 @@ export default {};
     left: 70%;
     bottom: 0;
     right: 0;
-    background: url('../assets/icons/Cloud-background-right.png') no-repeat;
+    background: url('/Cloud-background-right.png') no-repeat;
     background-size: cover;
     opacity: 0.1;
   }
