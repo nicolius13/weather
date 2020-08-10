@@ -5,11 +5,7 @@
     md="2"
   >
     <p class="text-center mb-2">Date</p>
-    <b-img
-      class="d-flex mr-auto ml-auto"
-      src="~/assets/icons/Thunderstorm.png"
-      fluid
-    ></b-img>
+    <b-img class="d-flex mr-auto ml-auto" src="/Thunderstorm.png" fluid></b-img>
     <div class="d-flex justify-content-around mt-3">
       <p><span>1</span><span>6°C</span></p>
       <p><span>1</span><span>1°C</span></p>
