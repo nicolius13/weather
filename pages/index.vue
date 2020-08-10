@@ -2,7 +2,7 @@
   <b-container class="mainContainer" fluid>
     <b-row class="mainRow">
       <Today :weatherObj="weatherObj" />
-      <NextDays />
+      <NextDays :weather="weatherObj.consolidated_weather" />
     </b-row>
   </b-container>
 </template>

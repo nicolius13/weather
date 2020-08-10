@@ -7,7 +7,12 @@
       </b-col>
 
       <b-row class="mt-3 justify-content-center">
-        <DaysPrevisions v-for="i in 5" :key="i" />
+        <DaysPrevisions
+          v-for="(day, i) in weather"
+          :key="i"
+          :day="day"
+          :index="i"
+        />
       </b-row>
 
       <b-col class="mt-4 mb-4" align-self="center" cols="12">
@@ -36,6 +41,14 @@ export default {
   components: {
     DaysPrevisions,
     Footer,
+  },
+  props: {
+    weather: {
+      type: Array,
+      default: () => {
+        return null;
+      },
+    },
   },
 };
 </script>
