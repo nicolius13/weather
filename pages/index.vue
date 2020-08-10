@@ -5,6 +5,7 @@
         :weatherObj="weatherObj"
         :tempType="tempType"
         @geoloc="getGeoloc"
+        @citychange="getWeather($event)"
       />
       <NextDays
         :weather="weatherObj.consolidated_weather"
@@ -54,7 +55,7 @@ export default {
   // },
   methods: {
     // Get the weather infos with a lat and long
-    getWeather(lat, lng) {
+    getWoeid(lat, lng) {
       // first get the woeid
       this.$axios
         .get(
@@ -63,13 +64,23 @@ export default {
         .then(res => {
           // then get the weather infos
           const woeid = res.data[0].woeid;
-          this.$axios
-            .get(
-              `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
-            )
-            .then(res => {
-              this.weatherObj = res.data;
-            });
+          this.getWeather(woeid);
+        })
+        .catch(error => {
+          window.alert(error.response);
+        });
+    },
+    // get the weather infos with the woeid
+    getWeather(id) {
+      this.$axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${id}/`
+        )
+        .then(res => {
+          this.weatherObj = res.data;
+        })
+        .catch(error => {
+          window.alert(error.response);
         });
     },
     // ask for the geolocalisation
@@ -82,7 +93,7 @@ export default {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             // search the area given by the geoloc
-            this.getWeather(lat, lng);
+            this.getWoeid(lat, lng);
           },
           () => {
             // denied geoloc

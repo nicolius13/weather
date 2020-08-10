@@ -1,9 +1,11 @@
 <template>
-  <b-col class="todayCol d-flex no-gutters" cols="12" md="4" xl="3">
+  <b-col class="todayCol d-flex no-gutters" cols="12" lg="4" xl="3">
     <b-row>
       <!-- BTN -->
       <b-col class="text-left" cols="8">
-        <b-button>Search for places</b-button>
+        <b-button v-b-toggle.sidebar>Search for places</b-button>
+        <!-- SIDEBAR -->
+        <SearchSidebar @citychange="$emit('citychange', $event)" />
       </b-col>
       <b-col class="text-right">
         <b-button @click="$emit('geoloc')" class="geolocBtn" pill
@@ -46,7 +48,11 @@
 </template>
 
 <script>
+import SearchSidebar from './UI/SearchSidebar';
 export default {
+  components: {
+    SearchSidebar,
+  },
   props: {
     weatherObj: {
       type: Object,
@@ -182,7 +188,7 @@ export default {
   .iconCol {
     &::before {
       top: 0;
-      left: -45%;
+      left: -5%;
       bottom: 0;
       right: 0;
     }
