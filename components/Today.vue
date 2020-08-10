@@ -5,7 +5,9 @@
         <b-button>Search for places</b-button>
       </b-col>
       <b-col class="text-right">
-        <b-button>+</b-button>
+        <b-button @click="$emit('geoloc')" class="geolocBtn" pill
+          ><b-img src="~/assets/icons/location.png"></b-img
+        ></b-button>
       </b-col>
 
       <b-col class="iconCol text-center d-flex" cols="12">
@@ -106,6 +108,11 @@ export default {
   background-color: $clr-blueBack;
   padding: 2rem 0 2rem 0;
   height: 100vh;
+}
+
+.geolocBtn {
+  padding: 0.5rem;
+  line-height: 0;
 }
 
 .temp {
