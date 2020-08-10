@@ -29,15 +29,15 @@
 </template>
 
 <script>
-import DaysPrevisions from './UI/DaysPrevisions'
-import Footer from './Footer'
+import DaysPrevisions from './UI/DaysPrevisions';
+import Footer from './Footer';
 
 export default {
   components: {
     DaysPrevisions,
     Footer,
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
