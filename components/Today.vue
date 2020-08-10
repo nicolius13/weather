@@ -32,7 +32,7 @@
       <b-row>
         <b-col class="text-center opa-4" align-self="end" cols="12">
           Today .
-          {{ new Date().toDateString() }}
+          {{ date }}
         </b-col>
         <b-col class="text-center opa-4" align-self="end">
           {{ weatherObj.title }}
@@ -66,6 +66,36 @@ export default {
       } else {
         return '15';
       }
+    },
+    date() {
+      const date = new Date();
+      const day = date.getDate();
+      const weekDay = this.dayOfWeek(date.getDay());
+      const month = this.monthOfYear(date.getMonth());
+      return `${weekDay}. ${day} ${month}`;
+    },
+  },
+  methods: {
+    dayOfWeek(dayIndex) {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex] || '';
+    },
+    monthOfYear(monthIndex) {
+      return (
+        [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'June',
+          'July',
+          'Aug',
+          'Sept',
+          'Oct',
+          'Nov',
+          'Dec',
+        ][monthIndex] || ''
+      );
     },
   },
 };
