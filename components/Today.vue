@@ -149,7 +149,7 @@ export default {
     right: 0;
     background: url('/Cloud-background-left.png') no-repeat;
     background-size: contain;
-    opacity: 0.1;
+    opacity: 0.05;
   }
 
   &::after {
@@ -161,7 +161,7 @@ export default {
     right: 0;
     background: url('/Cloud-background-right.png') no-repeat;
     background-size: cover;
-    opacity: 0.1;
+    opacity: 0.05;
   }
 }
 

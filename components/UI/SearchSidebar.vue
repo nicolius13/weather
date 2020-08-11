@@ -110,19 +110,19 @@ export default {
           if (res.data.length === 0) {
             this.validation = false;
             // if only 1 city in result =>
-            // fetch the weather
-            // check if the city is not already present in recentSearch array
-            // push the city in the recentSearch array
           } else if (res.data.length === 1) {
+            // fetch the weather
             this.$emit('citychange', res.data[0].woeid);
+            // check if the city is not already present in recentSearch array
             this.filterCity(res.data);
+            // push the city in the recentSearch array
             this.recentSearch.push(...res.data);
             this.city = '';
             // if more than 1 city =>
-            // filter the resultto remove the cities from recentSearch array
-            // push the results in the recentSearch array
           } else {
+            // filter the result to remove the cities from recentSearch array
             this.filterCity(res.data);
+            // push the results in the recentSearch array
             this.recentSearch.push(...res.data);
             this.city = '';
           }
@@ -131,6 +131,7 @@ export default {
           window.alert(error.response);
         });
     },
+    // filter the result to remove the cities from recentSearch array
     filterCity(cities) {
       cities.forEach(city => {
         this.recentSearch = this.recentSearch.filter(

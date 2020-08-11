@@ -1,5 +1,14 @@
 import pkg from './package';
 
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/weather/',
+        },
+      }
+    : {};
+
 export default {
   mode: 'universal',
 
@@ -22,6 +31,7 @@ export default {
       },
     ],
   },
+  ...routerBase,
 
   /*
    ** Customize the progress-bar color
