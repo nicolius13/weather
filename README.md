@@ -2,21 +2,8 @@
 
 > My stellar weather app
 
-## Build Setup
+A simple weather app done for devchallenges.io
 
-``` bash
-# install dependencies
-$ npm install
+I used Nuxt and Vue-Bootstrap
 
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+visible at https://nicolius13.github.io/weather/
