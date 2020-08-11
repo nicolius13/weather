@@ -1,50 +1,48 @@
 <template>
-  <b-col class="todayCol d-flex no-gutters" cols="12" lg="4" xl="3">
+  <b-row>
+    <!-- BTN -->
+    <b-col class="text-left" cols="8">
+      <b-button v-b-toggle.sidebar>Search for places</b-button>
+      <!-- SIDEBAR -->
+      <SearchSidebar @citychange="$emit('citychange', $event)" />
+    </b-col>
+    <b-col class="text-right">
+      <b-button @click="$emit('geoloc')" class="geolocBtn" pill
+        ><b-img src="~/assets/icons/location.png"></b-img
+      ></b-button>
+    </b-col>
+    <!-- IMG -->
+    <b-col class="iconCol text-center d-flex" cols="12">
+      <b-img :src="`/${iconName}.png`" class="m-auto"></b-img>
+    </b-col>
+    <!-- TEMPERATURE -->
+    <b-col
+      class="text-center d-flex justify-content-center align-items-center"
+      cols="12"
+    >
+      <h1 class="temp">
+        {{ temperature
+        }}<span class="tempDeg">{{ tempType === 'cel' ? '°C' : '°F' }}</span>
+      </h1>
+    </b-col>
+    <!-- WEATHER NAME -->
+    <b-col class="text-center" cols="12">
+      <h2 class="weatherText">
+        {{ weatherObj.consolidated_weather[0].weather_state_name }}
+      </h2>
+    </b-col>
+    <!-- DATE -->
     <b-row>
-      <!-- BTN -->
-      <b-col class="text-left" cols="8">
-        <b-button v-b-toggle.sidebar>Search for places</b-button>
-        <!-- SIDEBAR -->
-        <SearchSidebar @citychange="$emit('citychange', $event)" />
+      <b-col class="text-center opa-4" align-self="end" cols="12">
+        Today .
+        {{ date }}
       </b-col>
-      <b-col class="text-right">
-        <b-button @click="$emit('geoloc')" class="geolocBtn" pill
-          ><b-img src="~/assets/icons/location.png"></b-img
-        ></b-button>
+      <!-- PLACE -->
+      <b-col class="text-center opa-4" align-self="end">
+        {{ weatherObj.title }}
       </b-col>
-      <!-- IMG -->
-      <b-col class="iconCol text-center d-flex" cols="12">
-        <b-img :src="`/${iconName}.png`" class="m-auto"></b-img>
-      </b-col>
-      <!-- TEMPERATURE -->
-      <b-col
-        class="text-center d-flex justify-content-center align-items-center"
-        cols="12"
-      >
-        <h1 class="temp">
-          {{ temperature
-          }}<span class="tempDeg">{{ tempType === 'cel' ? '°C' : '°F' }}</span>
-        </h1>
-      </b-col>
-      <!-- WEATHER NAME -->
-      <b-col class="text-center" cols="12">
-        <h2 class="weatherText">
-          {{ weatherObj.consolidated_weather[0].weather_state_name }}
-        </h2>
-      </b-col>
-      <!-- DATE -->
-      <b-row>
-        <b-col class="text-center opa-4" align-self="end" cols="12">
-          Today .
-          {{ date }}
-        </b-col>
-        <!-- PLACE -->
-        <b-col class="text-center opa-4" align-self="end">
-          {{ weatherObj.title }}
-        </b-col>
-      </b-row>
     </b-row>
-  </b-col>
+  </b-row>
 </template>
 
 <script>
@@ -117,12 +115,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.todayCol {
-  background-color: $clr-blueBack;
-  padding: 2rem 0 2rem 0;
-  height: 100vh;
-}
-
 .geolocBtn {
   padding: 0.5rem;
   line-height: 0;

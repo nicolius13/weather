@@ -1,22 +1,41 @@
 <template>
   <b-container class="mainContainer" fluid>
     <b-row class="mainRow">
-      <Today
-        :weatherObj="weatherObj"
-        :tempType="tempType"
-        @geoloc="getGeoloc"
-        @citychange="getWeather($event)"
-      />
-      <NextDays
-        :weather="weatherObj.consolidated_weather"
-        @tempconvertion="tempType = $event"
-      />
+      <b-col class="todayCol d-flex no-gutters" cols="12" lg="4" xl="3">
+        <Today
+          v-if="!pending"
+          :weatherObj="weatherObj"
+          :tempType="tempType"
+          @geoloc="getGeoloc"
+          @citychange="getWeather($event)"
+        />
+        <div
+          v-if="pending"
+          class="d-flex align-items-center justify-content-center w-100"
+        >
+          <b-spinner class="spin"></b-spinner>
+        </div>
+      </b-col>
+      <b-col class="nextDaysCol d-flex">
+        <NextDays
+          v-if="!pending"
+          :weather="weatherObj.consolidated_weather"
+          @tempconvertion="tempType = $event"
+        />
+        <div
+          v-if="pending"
+          class="d-flex align-items-center justify-content-center w-100"
+        >
+          <b-spinner class="spin"></b-spinner>
+        </div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import obj from '../static/obj';
+// OFFLINE TESTING
+// import obj from '../static/obj';
 
 import Today from '~/components/Today';
 import NextDays from '~/components/NextDays';
@@ -30,32 +49,26 @@ export default {
     return {
       tempType: 'cel',
       weatherObj: null,
+      pending: true,
     };
   },
 
-  created() {
-    this.weatherObj = obj.obj;
+  // OFFLINE TESTING
+  // created() {
+  // this.weatherObj = obj.obj;
+  // },
+
+  mounted() {
+    this.getGeoloc(true);
   },
 
-  // async asyncData({ $axios }) {
-  //   return await $axios
-  //     .get(
-  //       `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=50.850000,4.350000`
-  //     )
-  //     .then(res => {
-  //       const woeid = res.data[0].woeid;
-  //       return $axios
-  //         .get(
-  //           `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`
-  //         )
-  //         .then(res => {
-  //           return { weatherObj: res.data };
-  //         });
-  //     });
-  // },
   methods: {
     // Get the weather infos with a lat and long
-    getWoeid(lat, lng) {
+    getWoeid(lat, lng, load = true) {
+      if (load) {
+        // Start laoding
+        this.$nuxt.$loading.start();
+      }
       // first get the woeid
       this.$axios
         .get(
@@ -78,13 +91,22 @@ export default {
         )
         .then(res => {
           this.weatherObj = res.data;
+          this.pending = false;
+          // Finish the loading
+          this.$nuxt.$loading.finish();
+          // emit an event to close the sidebar
+          this.$nuxt.$emit('sidebarclose', false);
         })
         .catch(error => {
           window.alert(error.response);
         });
     },
     // ask for the geolocalisation
-    getGeoloc() {
+    getGeoloc(start = false) {
+      if (!start) {
+        // Start laoding
+        this.$nuxt.$loading.start();
+      }
       //  GEOLOC
       // Try HTML geolocation
       if (navigator.geolocation) {
@@ -93,28 +115,57 @@ export default {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             // search the area given by the geoloc
-            this.getWoeid(lat, lng);
+            this.getWoeid(lat, lng, false);
           },
           () => {
             // denied geoloc
             this.handleLocationError(true);
+            // if it's at start-up and fail => get brussels weather
+            if (start) {
+              this.getWeather(968019);
+            }
           }
         );
       } else {
         // browser don't support geoloc
         this.handleLocationError(false);
+        // if it's at start-up and fail => get brussels weather
+        if (start) {
+          this.getWeather(968019);
+        }
       }
     },
     // open a modal if the geoloc is refuse or not supported
     handleLocationError(browserHasGeoloc) {
       if (browserHasGeoloc) {
-        window.alert('The Geolocation service failed.');
+        window.alert(
+          "The Geolocation service failed. You can search for specific cities by clicking 'Search for places' button."
+        );
       } else {
-        window.alert("Your browser doesn't support geolocation.");
+        window.alert(
+          "Your browser doesn't support geolocation. You can search for specific cities by clicking 'Search for places' button."
+        );
       }
     },
   },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.nextDaysCol {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.todayCol {
+  background-color: $clr-blueBack;
+  padding: 2rem 0 2rem 0;
+  height: 100vh;
+}
+
+.spin {
+  width: 4rem;
+  height: 4rem;
+  border-width: 0.5rem;
+}
+</style>

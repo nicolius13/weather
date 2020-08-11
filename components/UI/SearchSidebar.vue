@@ -1,5 +1,11 @@
 <template>
-  <b-sidebar @hidden="resetForm" id="sidebar" text-variant="light" shadow>
+  <b-sidebar
+    id="sidebar"
+    v-model="visible"
+    @hidden="resetForm"
+    text-variant="light"
+    shadow
+  >
     <b-form
       @submit="onSubmit"
       class="justify-content-between mt-3"
@@ -49,6 +55,7 @@ export default {
   },
   data() {
     return {
+      visible: false,
       city: '',
       validation: null,
       recentSearch: [
@@ -73,6 +80,7 @@ export default {
       ],
     };
   },
+
   computed: {
     // get the last 8 result to show and reverse them to show the last on top
     lastResults() {
@@ -82,6 +90,13 @@ export default {
       return rev.slice(0, 8);
     },
   },
+  // Listen to closing event
+  created() {
+    this.$nuxt.$on('sidebarclose', $event => {
+      this.visible = $event;
+    });
+  },
+
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
