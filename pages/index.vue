@@ -16,7 +16,7 @@
           <b-spinner class="spin"></b-spinner>
         </div>
       </b-col>
-      <b-col class="nextDaysCol d-flex">
+      <b-col ref="nextDayCol" class="nextDaysCol d-flex">
         <NextDays
           v-if="!pending"
           :weather="weatherObj.consolidated_weather"
@@ -170,7 +170,6 @@ export default {
 .todayCol {
   background-color: $clr-blueBack;
   padding: 2rem 0 2rem 0;
-  height: 100vh;
 }
 
 .spin {

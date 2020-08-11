@@ -8,8 +8,7 @@
   >
     <b-form
       @submit="onSubmit"
-      class="justify-content-between mt-3"
-      inline
+      class=" d-flex justify-content-between mt-3"
       novalidate
     >
       <b-input-group class="cityInputGrp align-items-center">
@@ -160,6 +159,7 @@ export default {
   border-radius: 0;
   padding-left: 0.75rem;
   border: 1px solid $clr-light;
+  width: 70%;
 
   &:focus-within {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
@@ -175,7 +175,6 @@ export default {
     padding: 0.75rem 0.75rem 0.75rem 0.5rem;
     color: $clr-light;
     height: auto;
-    width: 70%;
 
     &:focus {
       box-shadow: none;
