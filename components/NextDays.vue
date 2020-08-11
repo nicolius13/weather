@@ -39,7 +39,7 @@
           class=" d-flex justify-content-center align-items-center text-center mt-2"
         >
           <b-badge :style="direction" class="windDirection mr-2" pill
-            ><b-img src="~/assets/icons/nav_arrow.svg"></b-img
+            ><b-icon-cursor-fill class="windArrow"></b-icon-cursor-fill
           ></b-badge>
           <p>{{ weather[0].wind_direction_compass }}</p>
         </div>
@@ -98,6 +98,7 @@
 </template>
 
 <script>
+import { BIconCursorFill } from 'bootstrap-vue';
 import DaysPrevisions from './UI/DaysPrevisions';
 import Footer from './Footer';
 
@@ -105,6 +106,7 @@ export default {
   components: {
     DaysPrevisions,
     Footer,
+    BIconCursorFill,
   },
   props: {
     weather: {
@@ -156,6 +158,11 @@ export default {
 
 .windDirection {
   padding: 0.3rem;
+
+  .windArrow {
+    color: $clr-light;
+    font-size: 1rem;
+  }
 }
 
 .humidityProgress {
