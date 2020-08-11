@@ -8,11 +8,7 @@
     <p class="text-center mb-2">
       {{ index === 1 ? 'Tomorrow' : date }}
     </p>
-    <b-img
-      :src="`/${iconName}.png`"
-      class="d-flex mr-auto ml-auto"
-      fluid
-    ></b-img>
+    <b-img :src="iconSrc" class="d-flex mr-auto ml-auto" fluid></b-img>
     <div class="d-flex justify-content-around mt-3">
       <p>{{ convertTemp(day.max_temp) }}{{ tempSign }}</p>
       <p class="min_temp">{{ convertTemp(day.min_temp) }}{{ tempSign }}</p>
@@ -39,10 +35,10 @@ export default {
     },
   },
   computed: {
-    // get the name without the space to use them in src
-    iconName() {
-      const name = this.day.weather_state_name;
-      return name.replace(/\s/g, '');
+    // get the name without the space to use it to require the src
+    iconSrc() {
+      const name = this.day.weather_state_name.replace(/\s/g, '');
+      return require(`~/assets/icons/${name}.png`);
     },
     // get the date format DD. DD MM
     date() {

@@ -1,13 +1,6 @@
 import pkg from './package';
 
-const routerBase =
-  process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? {
-        router: {
-          base: '/weather/',
-        },
-      }
-    : {};
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? '/weather/' : '/';
 
 export default {
   mode: 'universal',
@@ -23,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: pkg.description },
     ],
     link: [
-      { rel: 'icon', type: 'image/png', href: '/LightCloud.png' },
+      { rel: 'icon', type: 'image/png', href: `${routerBase}LightCloud.png` },
       {
         rel: 'stylesheet',
         href:
@@ -31,7 +24,10 @@ export default {
       },
     ],
   },
-  ...routerBase,
+
+  router: {
+    base: routerBase,
+  },
 
   /*
    ** Customize the progress-bar color

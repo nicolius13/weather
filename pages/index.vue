@@ -50,6 +50,7 @@ export default {
       tempType: 'cel',
       weatherObj: null,
       pending: true,
+      currentCity: null,
     };
   },
 
@@ -83,24 +84,7 @@ export default {
           window.alert(error.response);
         });
     },
-    // get the weather infos with the woeid
-    getWeather(id) {
-      this.$axios
-        .get(
-          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${id}/`
-        )
-        .then(res => {
-          this.weatherObj = res.data;
-          this.pending = false;
-          // Finish the loading
-          this.$nuxt.$loading.finish();
-          // emit an event to close the sidebar
-          this.$nuxt.$emit('sidebarclose', false);
-        })
-        .catch(error => {
-          window.alert(error.response);
-        });
-    },
+
     // ask for the geolocalisation
     getGeoloc(start = false) {
       if (!start) {
@@ -135,6 +119,7 @@ export default {
         }
       }
     },
+
     // open a modal if the geoloc is refuse or not supported
     handleLocationError(browserHasGeoloc) {
       if (browserHasGeoloc) {
@@ -146,6 +131,31 @@ export default {
           "Your browser doesn't support geolocation. You can search for specific cities by clicking 'Search for places' button."
         );
       }
+    },
+
+    // get the weather infos with the woeid
+    getWeather(id) {
+      if (id === this.currentCity) {
+        return;
+      }
+      this.$axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${id}/`
+        )
+        .then(res => {
+          // emit an event to close the sidebar
+          if (this.currentCity !== null) {
+            this.$nuxt.$emit('sidebarclose', false);
+          }
+          this.weatherObj = res.data;
+          this.currentCity = res.data.woeid;
+          this.pending = false;
+          // Finish the loading
+          this.$nuxt.$loading.finish();
+        })
+        .catch(error => {
+          window.alert(error.response);
+        });
     },
   },
 };

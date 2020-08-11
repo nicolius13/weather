@@ -13,7 +13,7 @@
     </b-col>
     <!-- IMG -->
     <b-col class="iconCol text-center d-flex" cols="12">
-      <b-img :src="`/${iconName}.png`" class="m-auto"></b-img>
+      <b-img :src="iconSrc" class="m-auto"></b-img>
     </b-col>
     <!-- TEMPERATURE -->
     <b-col
@@ -64,10 +64,13 @@ export default {
     },
   },
   computed: {
-    // get the name without the space to use them in src
-    iconName() {
-      const name = this.weatherObj.consolidated_weather[0].weather_state_name;
-      return name.replace(/\s/g, '');
+    // get the name without the space to use it to require the src
+    iconSrc() {
+      const name = this.weatherObj.consolidated_weather[0].weather_state_name.replace(
+        /\s/g,
+        ''
+      );
+      return require(`~/assets/icons/${name}.png`);
     },
     // get the date format DD. DD MM
     date() {
@@ -147,7 +150,7 @@ export default {
     left: -15%;
     bottom: 0;
     right: 0;
-    background: url('/Cloud-background-left.png') no-repeat;
+    background: url('~assets/icons/Cloud-background-left.png') no-repeat;
     background-size: contain;
     opacity: 0.05;
   }
@@ -159,7 +162,7 @@ export default {
     left: 70%;
     bottom: 0;
     right: 0;
-    background: url('/Cloud-background-right.png') no-repeat;
+    background: url('~assets/icons/Cloud-background-right.png') no-repeat;
     background-size: cover;
     opacity: 0.05;
   }
