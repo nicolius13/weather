@@ -1,4 +1,4 @@
-# weahter
+# weather
 
 > My stellar weather app
 
